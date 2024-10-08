@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export function setupServer() {
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 3001;
 
   const app = express();
 
@@ -39,7 +39,10 @@ export function setupServer() {
     try {
       const contact = await Contact.findById(id);
       if (!contact) {
-        return res.status(404).send('Contact not found');
+        res.json({
+          status: 400,
+          message: 'Contact not found',
+        });
       }
       res.json({
         status: 200,
