@@ -1,4 +1,4 @@
-export { Contact } from '../models/contactSchema.js';
+import { Contact } from '../models/contactSchema.js';
 
 export const getAllContacts = () => Contact.find();
 export const getContactById = (contactId) => Contact.findById(contactId);

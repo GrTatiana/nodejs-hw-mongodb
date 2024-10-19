@@ -25,5 +25,4 @@ const contactSchema = new Schema(
   { timestamps: true, versionKey: false },
 );
 
-const Contact = model('Contact', contactSchema);
-export { Contact };
+export const Contact = model('Contact', contactSchema);
