@@ -4,6 +4,11 @@ import { setupServer } from './src/server.js';
 
 dotenv.config();
 
+export const SORT_ORDER = {
+  ASC: 'asc',
+  DESC: 'desc',
+};
+
 const bootstrap = async () => {
   try {
     await initMongoConnection();
