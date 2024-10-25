@@ -1,9 +1,9 @@
 import Joi from 'joi';
-import createHttpError from 'http-errors';
 
-export const contactsSchema = Joi.object({
+export const contactsCollection = Joi.object({
   name: Joi.string().min(3).max(20).required().messages({
-    'string.base': 'Username should be a string',
+    'any.required': 'Ім’я користувача є обов’язковим',
+    'string.base': 'Ім’я користувача має бути рядком',
   }),
   phoneNumber: Joi.string()
     .pattern(/^\+380\d{9}$/)
@@ -24,7 +24,7 @@ export const contactsSchema = Joi.object({
     .required(),
 });
 
-export const updateContactSchema = Joi.object({
+export const updateContactsCollection = Joi.object({
   name: Joi.string().min(3).max(20).messages({
     'string.base': 'Username should be a string',
   }),
@@ -41,17 +41,3 @@ export const updateContactSchema = Joi.object({
   isFavourite: Joi.boolean(),
   contactType: Joi.string().min(3).max(20).valid('work', 'home', 'personal'),
 });
-
-export const validateBody = (schema) => async (req, res, next) => {
-  try {
-    await schema.validateAsync(req.body, {
-      abortEarly: false,
-    });
-    next();
-  } catch (err) {
-    const error = createHttpError(400, 'Bad Request', {
-      errors: err.details,
-    });
-    next(error);
-  }
-};

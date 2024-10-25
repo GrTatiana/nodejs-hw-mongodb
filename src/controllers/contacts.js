@@ -8,18 +8,19 @@ import {
 import error from 'http-errors';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
+import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const getAllContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query);
-
+  const filter = parseFilterParams(req.query);
   const contacts = await getAllContacts({
     page,
     perPage,
     sortBy,
     sortOrder,
+    filter,
   });
-  // const contacts = await getAllContacts({ page, perPage });
   res.status(200).json({
     status: 200,
     message: 'Successfully found contacts!',
@@ -38,7 +39,6 @@ export const getContactByIdController = async (req, res) => {
     });
   }
   throw error(404, 'Contact not found');
-  return;
 };
 
 export const createContactsController = async (req, res) => {
@@ -55,11 +55,10 @@ export const updateContactController = async (req, res) => {
   const contact = await updateContact(id, req.body);
   if (!contact) {
     throw error(404, 'Contact not found');
-    return;
   }
   res.status(200).json({
     status: 200,
-    message: 'Successfully create a contact!',
+    message: 'Successfully updated contact!',
     data: contact,
   });
 };
@@ -70,9 +69,5 @@ export const deleteContactController = async (req, res) => {
   if (!contact) {
     throw error(404, 'Contact not found');
   }
-  res.status(200).json({
-    status: 200,
-    message: 'Successfully delete a contact!',
-    data: contact,
-  });
+  res.status(204).send();
 };
