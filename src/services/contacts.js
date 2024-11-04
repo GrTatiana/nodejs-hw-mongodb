@@ -7,25 +7,29 @@ export const getAllContacts = async ({
   perPage = 10,
   sortOrder = SORT_ORDER.ASC,
   sortBy = '_id',
+  userId,
 }) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
-  const contactsQuery = Contact.find();
+  const contactsQuery = Contact.find({ userId });
+  console.log(contactsQuery);
   const contacts = await contactsQuery
     .skip(skip)
     .limit(limit)
     .sort({ [sortBy]: sortOrder })
     .exec();
 
-  const total = await Contact.countDocuments();
+  const total = await Contact.countDocuments({ userId });
   const paginationData = calculatePaginationData(total, perPage, page);
   return {
     data: contacts,
     ...paginationData,
   };
 };
-export const getContactById = (id) => Contact.findById(id);
+export const getContactById = (id, userId) =>
+  Contact.findOne({ _id: id, userId });
 export const createContact = (contactData) => Contact.create(contactData);
-export const deleteContact = (id) => Contact.findByIdAndDelete(id);
-export const updateContact = (id, contactData) =>
-  Contact.findByIdAndUpdate(id, contactData, { new: true });
+export const deleteContact = (id, userId) =>
+  Contact.findOneAndDelete({ _id: id, userId });
+export const updateContact = (id, contactData, userId) =>
+  Contact.findOneAndUpdate({ _id: id, userId }, contactData, { new: true });

@@ -40,4 +40,5 @@ export const updateContactsCollection = Joi.object({
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
   isFavourite: Joi.boolean(),
   contactType: Joi.string().min(3).max(20).valid('work', 'home', 'personal'),
+  userId: Joi.string().required(),
 });

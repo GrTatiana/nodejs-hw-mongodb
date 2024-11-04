@@ -8,6 +8,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { isValidId } from './middlewares/isValidId.js';
 import cookieParser from 'cookie-parser';
+import { authenticate } from './middlewares/authenticate.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -23,9 +24,9 @@ export const setupServer = () => {
       },
     }),
   );
-  app.use('/auth', usersRouter);
   app.use(cookieParser());
-  app.use('/contacts', contactsRouter);
+  app.use('/auth', usersRouter);
+  app.use('/contacts', authenticate, contactsRouter);
   app.use('*', notFoundHandler);
   app.use(errorHandler);
   app.use(isValidId);

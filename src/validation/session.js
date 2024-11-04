@@ -23,3 +23,8 @@ export const sessionSchema = Joi.object({
   accessTokenValidUntil: Joi.string().required(),
   refreshTokenValidUntil: Joi.string().required(),
 });
+
+export const userLoginSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+});
