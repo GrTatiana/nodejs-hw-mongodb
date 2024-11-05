@@ -3,7 +3,6 @@ import {
   loginUser,
   logoutUser,
   registerUser,
-  sendResetEmail,
   userRefreshSession,
 } from '../services/auth.js';
 import { setUpSession } from '../utils/setUpSession.js';
