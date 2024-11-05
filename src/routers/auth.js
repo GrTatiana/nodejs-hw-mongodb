@@ -8,6 +8,7 @@ import {
   userLogoutController,
   userRegisterController,
   userRefreshSessionController,
+  sendResetEmailController,
 } from '../controllers/auth.js';
 
 const usersRouter = express.Router();

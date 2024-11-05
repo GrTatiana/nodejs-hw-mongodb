@@ -32,6 +32,7 @@ export const userRefreshSession = async (sessionId, refreshToken) => {
   const activeSession = await Session.findOne({
     _id: sessionId,
   });
+  console.log('activeSession', activeSession);
 
   if (!activeSession) {
     throw createHttpError(401, 'Session not found!');
@@ -44,6 +45,8 @@ export const userRefreshSession = async (sessionId, refreshToken) => {
   }
 
   const newSession = await createActiveSession(sessionId);
+  console.log('newSession', newSession);
+
   if (!newSession || !newSession.accessToken) {
     throw createHttpError(500, 'Could not refresh session');
   }

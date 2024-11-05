@@ -3,6 +3,7 @@ import {
   loginUser,
   logoutUser,
   registerUser,
+  sendResetEmail,
   userRefreshSession,
 } from '../services/auth.js';
 import { setUpSession } from '../utils/setUpSession.js';
@@ -41,9 +42,8 @@ export const userRefreshSessionController = async (req, res) => {
       .json({ message: 'Missing sessionId or refreshToken' });
   }
   const session = await userRefreshSession(sessionId, refreshToken);
-  console.log(session);
+  console.log('controllerRefresh', session);
 
-  setUpSession(res, session);
   res.status(200).json({
     status: 200,
     message: 'Successfully refreshed a session!',

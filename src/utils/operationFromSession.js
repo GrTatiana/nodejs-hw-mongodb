@@ -17,6 +17,10 @@ export const createSession = () => {
 export const createActiveSession = async (userId) => {
   await Session.deleteOne({ userId });
   const sessionData = createSession();
+  console.log('sessionData', sessionData);
+
   const session = await Session.create({ userId, ...sessionData });
+  console.log('Created session:', session);
+
   return session;
 };

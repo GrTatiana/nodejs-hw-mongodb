@@ -5,6 +5,8 @@ import { Session } from '../models/sessionSchema.js';
 export const authenticate = async (req, res, next) => {
   const { authorization } = req.headers;
 
+  // console.log('accessToken', authorization);
+
   if (typeof authorization !== 'string') {
     return next(createHttpError(401, 'Please provide access token'));
   }
@@ -13,10 +15,11 @@ export const authenticate = async (req, res, next) => {
   if (bearer !== 'Bearer' || typeof accessToken !== 'string') {
     return next(createHttpError(401, 'Please provide access token'));
   }
-
+  console.log('Access token:', accessToken);
   const session = await Session.findOne({ accessToken });
+  console.log('Active session', session);
 
-  if (session === null) {
+  if (!session) {
     return next(createHttpError(401, 'Session not found successfully'));
   }
 
