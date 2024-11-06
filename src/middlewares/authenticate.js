@@ -5,8 +5,6 @@ import { Session } from '../models/sessionSchema.js';
 export const authenticate = async (req, res, next) => {
   const { authorization } = req.headers;
 
-  // console.log('accessToken', authorization);
-
   if (typeof authorization !== 'string') {
     return next(createHttpError(401, 'Please provide access token'));
   }
