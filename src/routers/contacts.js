@@ -13,12 +13,14 @@ import {
   contactsCollection,
   updateContactsCollection,
 } from '../validation/contacts.js';
+import { upload } from '../middlewares/upload.js';
 
 const contactsRouter = Router();
 contactsRouter.get('/', ctrlWrapper(getAllContactsController));
 contactsRouter.get('/:id', isValidId, ctrlWrapper(getContactByIdController));
 contactsRouter.post(
   '/',
+  upload.single('photo'),
   validateBody(contactsCollection),
   ctrlWrapper(createContactsController),
 );

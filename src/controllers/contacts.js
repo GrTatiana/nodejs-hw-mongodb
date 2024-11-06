@@ -1,3 +1,5 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import {
   createContact,
   deleteContact,
@@ -40,7 +42,16 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const createContactsController = async (req, res) => {
-  const contactData = { ...req.body, userId: req.user._id };
+  console.log(req.file);
+  let photo = null;
+  if (typeof req.file !== 'undefined') {
+    const photo = await fs.rename(
+      req.file.path,
+      path.resolve('src', 'public', 'photo', 'req.file.filename'),
+    );
+    photo = `http://localhost:3000/photos/${req.file.filename}`;
+  }
+  const contactData = { ...req.body, userId: req.user._id, photo };
   const contact = await createContact(contactData);
   res.status(201).json({
     status: 201,
