@@ -44,7 +44,7 @@ export const userRefreshSession = async (sessionId, refreshToken) => {
     throw createHttpError(401, 'Invalid refresh token');
   }
 
-  const newSession = await createActiveSession(sessionId);
+  const newSession = await createActiveSession(activeSession.userId);
   console.log('newSession', newSession);
 
   if (!newSession || !newSession.accessToken) {
