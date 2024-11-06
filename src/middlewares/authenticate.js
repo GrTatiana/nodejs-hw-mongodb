@@ -15,10 +15,7 @@ export const authenticate = async (req, res, next) => {
   if (bearer !== 'Bearer' || typeof accessToken !== 'string') {
     return next(createHttpError(401, 'Please provide access token'));
   }
-  console.log('Access token:', accessToken);
   const session = await Session.findOne({ accessToken });
-  console.log('Active session', session);
-
   if (!session) {
     return next(createHttpError(401, 'Session not found successfully'));
   }

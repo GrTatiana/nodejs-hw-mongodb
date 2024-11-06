@@ -41,8 +41,6 @@ export const userRefreshSessionController = async (req, res) => {
       .json({ message: 'Missing sessionId or refreshToken' });
   }
   const session = await userRefreshSession(sessionId, refreshToken);
-  console.log('controllerRefresh', session);
-
   res.status(200).json({
     status: 200,
     message: 'Successfully refreshed a session!',
