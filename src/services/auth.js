@@ -46,7 +46,7 @@ export const userRefreshSession = async (sessionId, refreshToken) => {
     throw createHttpError(401, 'Invalid refresh token');
   }
 
-  const newSession = await createActiveSession(sessionId);
+  const newSession = await createActiveSession(activeSession.userId);
   if (!newSession || !newSession.accessToken) {
     throw createHttpError(500, 'Could not refresh session');
   }
@@ -61,26 +61,33 @@ export const requestResetPassword = async (email) => {
   const resetToken = jwt.sign(
     { sub: user._id, email: user.email },
     process.env.JWT_SECRET,
-    { expiresIn: '5m' },
+    { expiresIn: '45m' },
   );
   console.log(resetToken);
   try {
-    await sendMail({
-      from: 'tmgrigorash@gmail.com',
+    sendMail({
+      from: process.env.SMTP_FROM,
       to: email,
       subject: 'Reset your password',
-      html: ` To reset your password please visit to <a href=""http://localhost:3000/password-reset?token=${resetToken}>link</a>`,
+      html: ` To reset your password please visit to <a href="${process.env.APP_DOMAIN}/password-reset?token=${resetToken}">link</a>`,
     });
   } catch (error) {
     console.error(error);
-    throw createHttpError(500, 'Cannot send email');
+    throw createHttpError(
+      500,
+      'Failed to send the email, please try again later.',
+    );
   }
 };
 
-export const resetPassword = async (passsword, token) => {
+export const resetPassword = async (password, token) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded);
+
     const user = User.findOne({ _id: decoded.sub, email: decoded.email });
+    console.log('User', user);
+
     if (!user) {
       throw createHttpError(404, 'User not found');
     }

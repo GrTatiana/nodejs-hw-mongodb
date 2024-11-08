@@ -6,10 +6,10 @@ const transporter = nodemailer.createTransport({
   secure: false,
   auth: {
     user: process.env.SMTP_USER,
-    pas: process.env.SMTP_PASSWORD,
+    pass: process.env.SMTP_PASSWORD,
   },
 });
 
-export const sendMail = (message) => {
-  transporter.sendMail(message);
+export const sendMail = async (message) => {
+  await transporter.sendMail(message);
 };
