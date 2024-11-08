@@ -28,6 +28,7 @@ const contactSchema = new Schema(
     },
     photo: {
       type: String,
+      default: null,
     },
   },
   { timestamps: true, versionKey: false },

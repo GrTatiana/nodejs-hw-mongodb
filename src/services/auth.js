@@ -61,9 +61,8 @@ export const requestResetPassword = async (email) => {
   const resetToken = jwt.sign(
     { sub: user._id, email: user.email },
     process.env.JWT_SECRET,
-    { expiresIn: '45m' },
+    { expiresIn: '5m' },
   );
-  console.log(resetToken);
   try {
     sendMail({
       from: process.env.SMTP_FROM,
@@ -83,17 +82,13 @@ export const requestResetPassword = async (email) => {
 export const resetPassword = async (password, token) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
-
     const user = User.findOne({ _id: decoded.sub, email: decoded.email });
-    console.log('User', user);
-
     if (!user) {
       throw createHttpError(404, 'User not found');
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     User.findByIdAndUpdate(user._id, { password: hashedPassword });
-    console.log(user);
+    await Session.deleteOne({ _id: decoded.sub });
   } catch (error) {
     if (
       error.name === 'JsonWebTokenError' ||

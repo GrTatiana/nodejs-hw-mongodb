@@ -10,6 +10,8 @@ import {
 import error from 'http-errors';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 
 export const getAllContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -42,16 +44,20 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const createContactsController = async (req, res) => {
-  console.log(req.file);
-  let photo = null;
-  if (typeof req.file !== 'undefined') {
-    const photo = await fs.rename(
-      req.file.path,
-      path.resolve('src', 'public', 'photo', 'req.file.filename'),
-    );
-    photo = `http://localhost:3000/photos/${req.file.filename}`;
+  let photo = req.file;
+  let photoUrl = null;
+  if (photo) {
+    if (process.env.ENABLE_CLOUDINARY === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
   }
-  const contactData = { ...req.body, userId: req.user._id, photo };
+  const contactData = {
+    ...req.body,
+    userId: req.user._id,
+    photo: photoUrl,
+  };
   const contact = await createContact(contactData);
   res.status(201).json({
     status: 201,
@@ -62,10 +68,26 @@ export const createContactsController = async (req, res) => {
 
 export const updateContactController = async (req, res) => {
   const { id } = req.params;
-  const contact = await updateContact(id, req.body, req.user._id);
+  const photo = req.file;
+  let photoUrl = null;
+  if (!id) {
+    return res.status(400).json({ message: 'ID is required' });
+  }
+
+  if (photo) {
+    if (process.env.ENABLE_CLOUDINARY === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
+  }
+
+  const contact = await updateContact(id, req.body, req.user._id, photoUrl);
+
   if (!contact) {
     throw error(404, 'Contact not found');
   }
+
   res.status(200).json({
     status: 200,
     message: 'Successfully updated contact!',

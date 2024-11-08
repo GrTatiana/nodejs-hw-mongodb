@@ -22,6 +22,7 @@ export const contactsCollection = Joi.object({
     .max(20)
     .valid('work', 'home', 'personal')
     .required(),
+  photo: Joi.string(),
 });
 
 export const updateContactsCollection = Joi.object({
@@ -41,4 +42,5 @@ export const updateContactsCollection = Joi.object({
   isFavourite: Joi.boolean(),
   contactType: Joi.string().min(3).max(20).valid('work', 'home', 'personal'),
   userId: Joi.string().required(),
+  photo: Joi.string(),
 });

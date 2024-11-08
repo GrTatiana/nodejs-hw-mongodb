@@ -8,6 +8,7 @@ import {
   userRefreshSession,
 } from '../services/auth.js';
 import { setUpSession } from '../utils/setUpSession.js';
+import { Session } from '../models/sessionSchema.js';
 
 export const userRegisterController = async (req, res) => {
   const payload = {
@@ -43,7 +44,6 @@ export const userRefreshSessionController = async (req, res) => {
       .json({ message: 'Missing sessionId or refreshToken' });
   }
   const session = await userRefreshSession(sessionId, refreshToken);
-  console.log(session);
 
   setUpSession(res, session);
   res.status(200).json({
@@ -68,8 +68,8 @@ export const sendResetEmailController = async (req, res) => {
   await requestResetPassword(email);
   res.send({
     statys: 200,
-    message: 'Reset password message send',
-    data: null,
+    message: 'Reset password email has been successfully sent.',
+    data: {},
   });
 };
 

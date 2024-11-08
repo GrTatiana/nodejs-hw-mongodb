@@ -30,5 +30,7 @@ export const getContactById = (id, userId) =>
 export const createContact = (contactData) => Contact.create(contactData);
 export const deleteContact = (id, userId) =>
   Contact.findOneAndDelete({ _id: id, userId });
-export const updateContact = (id, contactData, userId) =>
-  Contact.findOneAndUpdate({ _id: id, userId }, contactData, { new: true });
+export const updateContact = (id, contactData, userId, photo) =>
+  Contact.findOneAndUpdate({ _id: id, userId }, contactData, photo, {
+    new: true,
+  });
