@@ -56,13 +56,15 @@ export const userRefreshSession = async (sessionId, refreshToken) => {
 export const requestResetPassword = async (email) => {
   const user = await User.findOne({ email });
   if (!user) {
-    throw ctrlWrapper(404, 'User not found');
+    throw createHttpError(404, 'User not found');
   }
   const resetToken = jwt.sign(
     { sub: user._id, email: user.email },
     process.env.JWT_SECRET,
     { expiresIn: '5m' },
   );
+  console.log(resetToken);
+
   try {
     sendMail({
       from: process.env.SMTP_FROM,
@@ -82,17 +84,23 @@ export const requestResetPassword = async (email) => {
 export const resetPassword = async (password, token) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = User.findOne({ _id: decoded.sub, email: decoded.email });
+    const user = await User.findOne({ _id: decoded.sub, email: decoded.email });
     if (!user) {
       throw createHttpError(404, 'User not found');
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    User.findByIdAndUpdate(user._id, { password: hashedPassword });
     await Session.deleteOne({ _id: decoded.sub });
+    return await User.findByIdAndUpdate(
+      user._id,
+      {
+        password: hashedPassword,
+      },
+      { new: true },
+    );
   } catch (error) {
     if (
       error.name === 'JsonWebTokenError' ||
-      error.name === 'TokenExpiredEror'
+      error.name === 'TokenExpiredError'
     ) {
       throw createHttpError(401, 'Token is expired or invalid.');
     }
