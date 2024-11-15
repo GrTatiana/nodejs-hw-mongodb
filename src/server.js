@@ -10,6 +10,7 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { isValidId } from './middlewares/isValidId.js';
 import cookieParser from 'cookie-parser';
 import { authenticate } from './middlewares/authenticate.js';
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -18,6 +19,7 @@ export const setupServer = () => {
   const app = express();
   app.use(express.json());
   app.use(cors());
+  app.use('/api-docs', swaggerDocs());
   app.use(
     pino({
       transport: {
@@ -26,7 +28,7 @@ export const setupServer = () => {
     }),
   );
   app.use(cookieParser());
-  app.use('/photo', express.static(path.resolve('src', 'public/photo')));
+  app.use('/photo', express.static(path.resolve('uploads')));
   app.use('/auth', usersRouter);
   app.use('/contacts', authenticate, contactsRouter);
   app.use('*', notFoundHandler);
