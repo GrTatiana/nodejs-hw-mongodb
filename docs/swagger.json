@@ -11,17 +11,13 @@
   },
   "servers": [
     {
-      "url": "https://nodejs-hw-mongodb-5-a3jc.onrender.com"
+      "url": "https://nodejs-hw-mongodb-5-5p44.onrender.com"
     }
   ],
   "tags": [
     {
       "name": "Contacts",
       "description": "Operations about contacts."
-    },
-    {
-      "name": "Auth",
-      "description": "Auth operations."
     }
   ],
   "paths": {
