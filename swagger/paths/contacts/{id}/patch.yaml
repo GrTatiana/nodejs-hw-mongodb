@@ -1,8 +1,8 @@
 tags:
   - Contacts
-summary: Update contacts
-operationId: updateContact
-description: 'Update a contact'
+summary: Update or create a contact
+operationId: patchContact
+description: 'Update or create a contact with payload'
 security:
   - bearerAuth: []
 parameters:
@@ -11,44 +11,44 @@ parameters:
     required: true
     schema:
       type: string
-      example: 65ca67e7ae7f10c88b5983849
+    description: 'The ID of the contact to update'
+
 requestBody:
+  required: false
   content:
     multipart/form-data:
-      data:
+      schema:
         type: object
-        $ref: ../../components/schemas/contact.yaml
-      # schema:
-      #   type: object
-      #   properties:
-      #     name:
-      #       description: "Contact's name"
-      #       type: string
-      #       example: 'John Doe'
-      #     phoneNumber:
-      #       description: "Contact's phone number"
-      #       type: number
-      #       example: +380999888777
-      #     email:
-      #       description: "Contact's email"
-      #       type: string
-      #       example: test@gmail.com
-      #     isFavourite:
-      #       description: "Contact's favourite status"
-      #       type: boolean
-      #       example: true
-      #     contactType:
-      #       description: "Contact's type"
-      #       type: string
-      #       enum: ['work', 'home', 'personal']
-      #       example: home
-      #     photo:
-      #       description: "Link to contact's photo"
-      #       type: string
-      #       format: binary
+        properties:
+          name:
+            description: "Contact's name"
+            type: string
+            example: 'John Doe'
+          phoneNumber:
+            description: "Contact's phone number"
+            type: string
+            example: '+1234567890'
+          email:
+            description: "Contact's email"
+            type: string
+            example: 'johndoe@example.com'
+          isFavourite:
+            description: 'Whether the contact is a favorite'
+            type: boolean
+            example: false
+          contactType:
+            description: "Contact's type"
+            type: string
+            enum: ['work', 'personal', 'home']
+            default: 'personal'
+          photo:
+            description: "Contact's photo as a binary file"
+            type: string
+            format: binary
+
 responses:
   '200':
-    description: Updatetd contacts
+    description: 'Patch a contact'
     content:
       application/json:
         schema:
@@ -56,16 +56,16 @@ responses:
           required:
             - status
             - message
-            # - data
+            - data
           properties:
             status:
               type: integer
               example: 200
             message:
               type: string
-              example: Successfully updated contact!
-            # data:
-            #   type: object
-            #   $ref: ../../components/schemas/contact.yaml
+              example: 'Successfully patched a contact!'
+            data:
+              type: object
+              $ref: '../../../components/schemas/contact.yaml'
   '404':
-    $ref: ../../../components/responses/404.yaml
+    $ref: '../../../components/responses/404.yaml'
