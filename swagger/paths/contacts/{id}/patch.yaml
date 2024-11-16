@@ -17,32 +17,32 @@ requestBody:
     multipart/form-data:
       schema:
         type: object
-      properties:
-        name:
-          description: "Contact's name"
-          type: string
-          example: 'John Doe'
-        phoneNumber:
-          description: "Contact's phone number"
-          type: number
-          example: +380999888777
-        email:
-          description: "Contact's email"
-          type: string
-          example: test@gmail.com
-        isFavourite:
-          description: "Contact's favourite status"
-          type: boolean
-          example: true
-        contactType:
-          description: "Contact's type"
-          type: string
-          enum: ['work', 'home', 'personal']
-          example: home
-        photo:
-          description: "Link to contact's photo"
-          type: string
-          format: binary
+        properties:
+          name:
+            description: "Contact's name"
+            type: string
+            example: 'John Doe'
+          phoneNumber:
+            description: "Contact's phone number"
+            type: number
+            example: +380999888777
+          email:
+            description: "Contact's email"
+            type: string
+            example: test@gmail.com
+          isFavourite:
+            description: "Contact's favourite status"
+            type: boolean
+            example: true
+          contactType:
+            description: "Contact's type"
+            type: string
+            enum: ['work', 'home', 'personal']
+            example: home
+          photo:
+            description: "Link to contact's photo"
+            type: string
+            format: binary
 responses:
   '200':
     description: Updatetd contacts
@@ -53,7 +53,7 @@ responses:
           required:
             - status
             - message
-            - data
+            # - data
           properties:
             status:
               type: integer
@@ -61,8 +61,8 @@ responses:
             message:
               type: string
               example: Successfully updated contact!
-            data:
-              type: object
-              $ref: ../../../components/schemas/contact.yaml
+            # data:
+            #   type: object
+            #   $ref: ../../components/schemas/contact.yaml
   '404':
     $ref: ../../../components/responses/404.yaml

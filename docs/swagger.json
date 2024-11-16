@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "https://nodejs-hw-mongodb-5-a3jc.onrender.com"
+      "url": "http://localhost:3000"
     }
   ],
   "tags": [
@@ -396,43 +396,43 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "type": "object"
-              },
-              "properties": {
-                "name": {
-                  "description": "Contact's name",
-                  "type": "string",
-                  "example": "John Doe"
-                },
-                "phoneNumber": {
-                  "description": "Contact's phone number",
-                  "type": "number",
-                  "example": 380999888777
-                },
-                "email": {
-                  "description": "Contact's email",
-                  "type": "string",
-                  "example": "test@gmail.com"
-                },
-                "isFavourite": {
-                  "description": "Contact's favourite status",
-                  "type": "boolean",
-                  "example": true
-                },
-                "contactType": {
-                  "description": "Contact's type",
-                  "type": "string",
-                  "enum": [
-                    "work",
-                    "home",
-                    "personal"
-                  ],
-                  "example": "home"
-                },
-                "photo": {
-                  "description": "Link to contact's photo",
-                  "type": "string",
-                  "format": "binary"
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "Contact's name",
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "phoneNumber": {
+                    "description": "Contact's phone number",
+                    "type": "number",
+                    "example": 380999888777
+                  },
+                  "email": {
+                    "description": "Contact's email",
+                    "type": "string",
+                    "example": "test@gmail.com"
+                  },
+                  "isFavourite": {
+                    "description": "Contact's favourite status",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "contactType": {
+                    "description": "Contact's type",
+                    "type": "string",
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ],
+                    "example": "home"
+                  },
+                  "photo": {
+                    "description": "Link to contact's photo",
+                    "type": "string",
+                    "format": "binary"
+                  }
                 }
               }
             }
@@ -447,8 +447,7 @@
                   "type": "object",
                   "required": [
                     "status",
-                    "message",
-                    "data"
+                    "message"
                   ],
                   "properties": {
                     "status": {
@@ -458,10 +457,6 @@
                     "message": {
                       "type": "string",
                       "example": "Successfully updated contact!"
-                    },
-                    "data": {
-                      "type": "object",
-                      "$ref": "#/components/schemas/contact"
                     }
                   }
                 }
@@ -1083,6 +1078,7 @@
           "photo": {
             "description": "Link to contact's photo",
             "type": "string",
+            "format": "binary",
             "example": "https://res.cloudinary.com/dwiv6erzd/image/upload/v1731361127/photo1.png"
           }
         }
