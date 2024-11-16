@@ -1,15 +1,9 @@
 type: object
 required:
-  - _id
   - name
   - phoneNumber
   - contactType
-  - userId
 properties:
-  _id:
-    description: "Contact's id"
-    type: string
-    example: 65e4decdd286b30065d54af9
   name:
     description: "Contact's name"
     type: string
@@ -18,10 +12,10 @@ properties:
     description: "Contact's phone number"
     type: number
     example: +380999888777
-  # email:
-  #   description: "Contact's email"
-  #   type: string
-  #   example: test@gmail.com
+  email:
+    description: "Contact's email"
+    type: string
+    example: test@gmail.com
   isFavourite:
     description: "Contact's favourite status"
     type: boolean
@@ -36,8 +30,9 @@ properties:
   userId:
     description: "Contact's user id"
     type: string
+    format: objectId
     example: 65e4decdd28991165d54af9
   photo:
     description: "Link to contact's photo"
     type: string
-    example: https://res.cloudinary.com/dwiv6erzd/image/upload/v1731361127/photo1.
+    example: https://res.cloudinary.com/dwiv6erzd/image/upload/v1731361127/photo1.png
