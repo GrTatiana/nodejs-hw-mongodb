@@ -11,11 +11,9 @@ requestBody:
       schema:
         type: object
         required:
-          - _id
           - name
           - phoneNumber
           - contactType
-          - userId
         properties:
           _id:
             description: "Contact's id"
@@ -51,8 +49,7 @@ requestBody:
           photo:
             description: "Link to contact's photo"
             type: string
-            example: https://res.cloudinary.com/dwiv6erzd/image/upload/v1731361127/photo1.jpg
-            default: null
+            format: binary
 responses:
   '201':
     description: Creates a contact
