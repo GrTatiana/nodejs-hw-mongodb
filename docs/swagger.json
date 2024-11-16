@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "https://nodejs-hw-mongodb-5-a3jc.onrender.com/"
+      "url": "https://nodejs-hw-mongodb-5-a3jc.onrender.com"
     }
   ],
   "tags": [
@@ -179,11 +179,6 @@
                   "contactType"
                 ],
                 "properties": {
-                  "_id": {
-                    "description": "Contact's id",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
-                  },
                   "name": {
                     "description": "Contact's name",
                     "type": "string",
