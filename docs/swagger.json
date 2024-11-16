@@ -395,45 +395,9 @@
         "requestBody": {
           "content": {
             "multipart/form-data": {
-              "schema": {
+              "data": {
                 "type": "object",
-                "properties": {
-                  "name": {
-                    "description": "Contact's name",
-                    "type": "string",
-                    "example": "John Doe"
-                  },
-                  "phoneNumber": {
-                    "description": "Contact's phone number",
-                    "type": "number",
-                    "example": 380999888777
-                  },
-                  "email": {
-                    "description": "Contact's email",
-                    "type": "string",
-                    "example": "test@gmail.com"
-                  },
-                  "isFavourite": {
-                    "description": "Contact's favourite status",
-                    "type": "boolean",
-                    "example": true
-                  },
-                  "contactType": {
-                    "description": "Contact's type",
-                    "type": "string",
-                    "enum": [
-                      "work",
-                      "home",
-                      "personal"
-                    ],
-                    "example": "home"
-                  },
-                  "photo": {
-                    "description": "Link to contact's photo",
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
+                "$ref": "../../components/schemas/contact.yaml"
               }
             }
           }
